@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://InitialMenu/InitialMenu.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Level/Level.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Game/Game.gd" type="Script" id=3]
+
+[node name="Game" type="Node2D" groups=["blocks"]]
+script = ExtResource( 3 )
+
+[node name="InitialMenu" parent="." instance=ExtResource( 1 )]
+
+[node name="Level" parent="." instance=ExtResource( 2 )]
+
+[connection signal="start_game" from="InitialMenu" to="." method="_on_InitialMenu_start_game"]
+[connection signal="game_over" from="Level" to="." method="_on_Level_game_over"]

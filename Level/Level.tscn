@@ -1,0 +1,96 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Level/Level.gd" type="Script" id=2]
+[ext_resource path="res://BlockContainer/BlockContainer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/left_wall.png" type="Texture" id=4]
+[ext_resource path="res://Assets/top_wall.png" type="Texture" id=5]
+[ext_resource path="res://Assets/right_wall.png" type="Texture" id=6]
+[ext_resource path="res://Assets/win.wav" type="AudioStream" id=7]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 400.375, 36.5 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 35.75, 426.125 )
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Walls" type="Node" parent="."]
+
+[node name="Top Wall" type="StaticBody2D" parent="Walls"]
+
+[node name="Sprite" type="Sprite" parent="Walls/Top Wall"]
+position = Vector2( 398, 37 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top Wall"]
+visible = false
+position = Vector2( 398.625, 37 )
+shape = SubResource( 1 )
+
+[node name="Left Wall" type="StaticBody2D" parent="Walls"]
+
+[node name="Sprite" type="Sprite" parent="Walls/Left Wall"]
+position = Vector2( 36, 400 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left Wall"]
+visible = false
+position = Vector2( 37.25, 426 )
+shape = SubResource( 2 )
+
+[node name="Right Wall" type="StaticBody2D" parent="Walls"]
+position = Vector2( 800, 0 )
+
+[node name="Sprite" type="Sprite" parent="Walls/Right Wall"]
+position = Vector2( -36, 400 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right Wall"]
+visible = false
+position = Vector2( -37, 426 )
+shape = SubResource( 2 )
+
+[node name="BlockContainer" parent="." instance=ExtResource( 3 )]
+position = Vector2( -1, 0 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 403, 767 )
+collision_mask = 1
+
+[node name="PressSpaceToStart" type="Label" parent="."]
+margin_left = 260.0
+margin_top = 630.0
+margin_right = 409.0
+margin_bottom = 646.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_scale = Vector2( 2, 2 )
+text = "Press \"Space\" to start"
+align = 1
+
+[node name="Pause" type="Label" parent="."]
+margin_left = 320.0
+margin_top = 469.0
+margin_right = 371.0
+margin_bottom = 483.0
+rect_scale = Vector2( 3, 3 )
+text = "PAUSED"
+align = 1
+
+[node name="Score" type="Label" parent="."]
+margin_left = 611.0
+margin_top = 84.0
+margin_right = 647.0
+margin_bottom = 98.0
+rect_scale = Vector2( 3, 3 )
+text = "0"
+align = 2
+uppercase = true
+
+[node name="Win" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+
+[connection signal="block_died" from="BlockContainer" to="." method="_on_BlockContainer_block_died"]
