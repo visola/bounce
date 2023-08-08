@@ -60,6 +60,9 @@ position = Vector2( -1, 0 )
 position = Vector2( 403, 767 )
 collision_mask = 1
 
+[node name="Win" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+
 [node name="PressSpaceToStart" type="Label" parent="."]
 margin_left = 260.0
 margin_top = 630.0
@@ -71,6 +74,16 @@ rect_scale = Vector2( 2, 2 )
 text = "Press \"Space\" to start"
 align = 1
 
+[node name="Score" type="Label" parent="."]
+margin_left = 602.0
+margin_top = 90.0
+margin_right = 638.0
+margin_bottom = 104.0
+rect_scale = Vector2( 3, 3 )
+text = "0"
+align = 2
+uppercase = true
+
 [node name="Pause" type="Label" parent="."]
 margin_left = 320.0
 margin_top = 469.0
@@ -79,18 +92,5 @@ margin_bottom = 483.0
 rect_scale = Vector2( 3, 3 )
 text = "PAUSED"
 align = 1
-
-[node name="Score" type="Label" parent="."]
-margin_left = 611.0
-margin_top = 84.0
-margin_right = 647.0
-margin_bottom = 98.0
-rect_scale = Vector2( 3, 3 )
-text = "0"
-align = 2
-uppercase = true
-
-[node name="Win" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 7 )
 
 [connection signal="block_died" from="BlockContainer" to="." method="_on_BlockContainer_block_died"]
