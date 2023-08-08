@@ -38,7 +38,6 @@ func _physics_process(delta):
 func clean_streams():
 	for child in get_children():
 		if child.is_class('AudioStreamPlayer2D'):
-			print("found stream")
 			if !child.is_playing():
 				remove_child(child)
 				child.queue_free()
