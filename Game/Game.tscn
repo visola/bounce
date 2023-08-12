@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://InitialMenu/InitialMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Level/Level.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/Game.gd" type="Script" id=3]
+[ext_resource path="res://Assets/win.wav" type="AudioStream" id=4]
 
 [node name="Game" type="Node2D" groups=["blocks"]]
 script = ExtResource( 3 )
@@ -19,5 +20,39 @@ color = Color( 0.654902, 0.72549, 0.854902, 1 )
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.815686, 0.886275, 0.933333, 1 )
 
+[node name="Pause" type="Label" parent="."]
+margin_left = 320.0
+margin_top = 469.0
+margin_right = 371.0
+margin_bottom = 483.0
+rect_scale = Vector2( 3, 3 )
+text = "PAUSED"
+align = 1
+
+[node name="PressSpaceToStart" type="Label" parent="."]
+margin_left = 260.0
+margin_top = 630.0
+margin_right = 409.0
+margin_bottom = 646.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_scale = Vector2( 2, 2 )
+text = "Press \"Space\" to start"
+align = 1
+
+[node name="Score" type="Label" parent="."]
+margin_left = 602.0
+margin_top = 90.0
+margin_right = 638.0
+margin_bottom = 104.0
+rect_scale = Vector2( 3, 3 )
+text = "0"
+align = 2
+uppercase = true
+
+[node name="Win" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+
 [connection signal="start_game" from="InitialMenu" to="." method="_on_InitialMenu_start_game"]
 [connection signal="game_over" from="Level" to="." method="_on_Level_game_over"]
+[connection signal="game_started" from="Level" to="." method="_on_Level_game_started"]
