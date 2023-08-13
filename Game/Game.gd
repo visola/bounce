@@ -3,13 +3,13 @@ extends Node2D
 var paused = false
 var score = 0
 
-func _on_BlockContainer_block_died(blocks_left):
+
+func _on_Level_block_died(blocks_left):
 	score += 1
 	$Score.text = str(score)
 	if blocks_left == 0:
 		$Win.play()
-		$Level.clear()
-		start()
+		$Level.next_level()
 
 func _ready():
 	go_to_inital_menu()

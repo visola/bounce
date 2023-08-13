@@ -3,7 +3,7 @@ extends KinematicBody2D
 var HitSound = preload("res://Assets/hit.wav")
 
 var random = RandomNumberGenerator.new()
-var speedi = 350
+var speedi = 500
 var velocity = Vector2(0, -1 * speedi)
 
 var paused = false

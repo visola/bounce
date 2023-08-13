@@ -54,5 +54,6 @@ uppercase = true
 stream = ExtResource( 4 )
 
 [connection signal="start_game" from="InitialMenu" to="." method="_on_InitialMenu_start_game"]
+[connection signal="block_died" from="Level" to="." method="_on_Level_block_died"]
 [connection signal="game_over" from="Level" to="." method="_on_Level_game_over"]
 [connection signal="game_started" from="Level" to="." method="_on_Level_game_started"]

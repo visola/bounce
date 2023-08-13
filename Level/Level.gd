@@ -1,5 +1,6 @@
 extends Node2D
 
+signal block_died
 signal game_over
 signal game_started
 
@@ -8,8 +9,13 @@ var Ball = preload('res://Ball/Ball.tscn')
 var ball_instance
 
 var running = false
+var level = 1
+
+func _on_BlockContainer_block_died(blocks_left):
+	emit_signal("block_died", blocks_left)
 
 func _on_Ball_reached_bottom():
+	level = 1
 	game_over()
 
 func _process(delta):
@@ -36,6 +42,12 @@ func game_over():
 func is_running():
 	return running
 	
+func next_level():
+	level += 1
+	running = false
+	clear()
+	start()
+	
 func pause():
 	$Player.stop()
 	ball_instance.pause()
@@ -45,7 +57,7 @@ func start():
 	$Player.start()
 	
 	$BlockContainer.clear()
-	$BlockContainer.generate_blocks()
+	$BlockContainer.generate_blocks(level)
 
 func unpause():
 	$Player.start()

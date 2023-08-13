@@ -8,6 +8,7 @@ var margin_x = 20
 var margin_y = 10
 var padding_x = 10
 var padding_y = 10
+var max_blocks_y = 16
 
 var blocks = []
 var blocks_dead = 0
@@ -23,14 +24,16 @@ func clear():
 			block.queue_free()
 	blocks = []
 
-func generate_blocks():
+func generate_blocks(level):
 	var container_size = $ReferenceRect.get_rect().size
 	
 	var reference_instance = Block.instance()
 	var block_size = reference_instance.get_node("Sprite").get_rect().size
 
-	var block_count_x = (container_size.x - 2 * margin_x) / block_size.x - 1
-	var block_count_y = (container_size.y - 2 * margin_y) / block_size.y / 3 - 1
+	var block_count_x = ceil((container_size.x - 2 * margin_x) / block_size.x - 1)
+	var block_count_y = level
+	if block_count_y > max_blocks_y:
+		block_count_y = max_blocks_y
 
 	for i in block_count_x:
 		for j in block_count_y:
