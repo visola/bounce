@@ -26,9 +26,7 @@ func clear():
 
 func generate_blocks(level):
 	var container_size = $ReferenceRect.get_rect().size
-	
-	var reference_instance = Block.instance()
-	var block_size = reference_instance.get_node("Sprite").get_rect().size
+	var block_size = Vector2(80, 23)
 
 	var block_count_x = ceil((container_size.x - 2 * margin_x) / block_size.x - 1)
 	var block_count_y = level
@@ -37,7 +35,9 @@ func generate_blocks(level):
 
 	for i in block_count_x:
 		for j in block_count_y:
+			print(j, block_count_y)
 			var block_instance = Block.instance()
+			block_instance.durability = j + 1
 			blocks.push_back(block_instance)
 			$ReferenceRect.add_child(block_instance)
 			block_instance.connect("died", self, "_on_Block_died")

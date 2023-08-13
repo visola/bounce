@@ -31,6 +31,7 @@ func _on_InitialMenu_start_game():
 	start()
 
 func _on_Level_game_over():
+	score = 0
 	go_to_inital_menu()
 
 func go_to_inital_menu():

@@ -9,7 +9,7 @@ var Ball = preload('res://Ball/Ball.tscn')
 var ball_instance
 
 var running = false
-var level = 1
+var level = 6
 
 func _on_BlockContainer_block_died(blocks_left):
 	emit_signal("block_died", blocks_left)
