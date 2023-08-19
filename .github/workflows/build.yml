@@ -12,6 +12,9 @@ jobs:
         platform: [linux]
 
     steps:
+      - name: Setup x11
+        run: apt-get install libx11-6:i386
+
       - uses: actions/checkout@v2
         with:
           lfs: true
