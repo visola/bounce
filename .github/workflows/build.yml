@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Setup x11
-        run: sudo apt-get install libx11-6:i386
+        run: sudo apt-get install libpcre3
 
       - uses: actions/checkout@v2
         with:
