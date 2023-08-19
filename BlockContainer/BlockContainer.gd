@@ -39,7 +39,7 @@ func generate_blocks(level):
 	var space_left_x = container_size.x - 2 * margin_x - block_count_x * block_size.x
 	var this_padding_x = floor(space_left_x / (block_count_x - 1))
 
-	var block_count_y = 3 * level
+	var block_count_y = 2 + level
 	if block_count_y > max_blocks_y:
 		block_count_y = max_blocks_y
 
