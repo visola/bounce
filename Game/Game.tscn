@@ -17,9 +17,6 @@ color = Color( 0.654902, 0.72549, 0.854902, 1 )
 
 [node name="Level" parent="." instance=ExtResource( 2 )]
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.815686, 0.886275, 0.933333, 1 )
-
 [node name="Pause" type="Label" parent="."]
 margin_left = 320.0
 margin_top = 469.0
