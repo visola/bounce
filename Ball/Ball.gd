@@ -1,6 +1,9 @@
 extends KinematicBody2D
 
+signal reached_bottom
+
 var HitSound = preload("res://Assets/hit.wav")
+var TemperatureGradient : GradientTexture = preload("res://Ball/temperature_gradient.tres")
 
 var random = RandomNumberGenerator.new()
 var speedi = 500
@@ -8,7 +11,11 @@ var velocity = Vector2(0, -1 * speedi)
 
 var paused = false
 
-signal reached_bottom
+var max_hit_temperature = 100.0
+var temperature_decrease_seconds = 0.4
+var hit_count = 150
+
+var time_last_subtract = 0
 
 func _ready():
 	random.randomize()
@@ -17,7 +24,7 @@ func _ready():
 func _physics_process(delta):
 	if paused:
 		return
-		
+
 	var viewPortY = get_viewport().get_visible_rect().size.y
 
 	var multiplier = 1
@@ -26,12 +33,31 @@ func _physics_process(delta):
 
 	var collision_info = move_and_collide(velocity * delta * multiplier)
 	
+	time_last_subtract += delta
+	if time_last_subtract > temperature_decrease_seconds:
+		hit_count -= 1
+		time_last_subtract = 0
+
+	if hit_count < 0:
+		hit_count = 0
+	
 	if collision_info:
 		velocity = velocity.bounce(collision_info.normal)
 		play_hit_sound()
+		
+		hit_count += 1
+
 		if collision_info.collider.has_method('hit'):
 			collision_info.collider.hit()
-		
+
+	if hit_count > max_hit_temperature:
+		hit_count = max_hit_temperature
+
+	var temperature = float(hit_count) / max_hit_temperature
+
+	$Light2D.energy = temperature / 2
+	$Sprite.modulate = TemperatureGradient.gradient.interpolate(temperature)
+	
 	if position.y >= viewPortY:
 		emit_signal('reached_bottom')
 		

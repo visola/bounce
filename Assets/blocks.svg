@@ -37,21 +37,10 @@
          offset="0"
          id="stop1043" />
       <stop
-         style="stop-color:#808080;stop-opacity:1"
+         style="stop-color:#cccccc;stop-opacity:1"
          offset="1"
          id="stop1045" />
     </linearGradient>
-    <radialGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient1047"
-       id="radialGradient1049"
-       cx="63.309467"
-       cy="11.659633"
-       fx="63.309467"
-       fy="11.659633"
-       r="4.309721"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(-0.2521445,-0.96768959,1.1007752,-0.28682175,66.437995,76.267782)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient1061"
@@ -82,6 +71,17 @@
        y1="21.911493"
        x2="139.92119"
        y2="13.596016" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1047"
+       id="radialGradient875"
+       cx="63.338467"
+       cy="11.482522"
+       fx="63.338467"
+       fy="11.482522"
+       r="4.309721"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-0.65519471,1.2515961,-1.6845799,-0.88185617,124.81989,-57.689071)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -92,7 +92,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
      inkscape:cx="121.34228"
-     inkscape:cy="293.907"
+     inkscape:cy="91.876492"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -164,7 +164,7 @@
        inkscape:export-xdpi="140.38"
        inkscape:export-ydpi="140.38" />
     <circle
-       style="fill:url(#radialGradient1049);fill-opacity:1;stroke:none;stroke-width:2;stroke-opacity:1"
+       style="fill:url(#radialGradient875);fill-opacity:1;stroke:none;stroke-width:2;stroke-opacity:1"
        id="path1033"
        cx="62.173573"
        cy="13.463702"
