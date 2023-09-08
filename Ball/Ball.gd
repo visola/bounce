@@ -13,7 +13,7 @@ var paused = false
 
 var max_hit_temperature = 100.0
 var temperature_decrease_seconds = 0.4
-var hit_count = 150
+var hit_count = 0
 
 var time_last_subtract = 0
 
