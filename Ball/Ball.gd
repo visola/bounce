@@ -32,6 +32,7 @@ func _physics_process(delta):
 		multiplier = 2
 
 	var collision_info = move_and_collide(velocity * delta * multiplier)
+	$Smoke.process_material.direction = Vector3(- velocity.x, -velocity.y, 0)
 	
 	time_last_subtract += delta
 	if time_last_subtract > temperature_decrease_seconds:
@@ -54,6 +55,10 @@ func _physics_process(delta):
 		hit_count = max_hit_temperature
 
 	var temperature = float(hit_count) / max_hit_temperature
+	if temperature > 0.4:
+		$Smoke.emitting = true
+	else:
+		$Smoke.emitting = false
 
 	$Light2D.energy = temperature / 2
 	$Sprite.modulate = TemperatureGradient.gradient.interpolate(temperature)
