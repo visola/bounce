@@ -50,7 +50,17 @@ uppercase = true
 [node name="Win" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
 
+[node name="Lives" type="Label" parent="."]
+margin_left = 79.0
+margin_top = 80.0
+margin_right = 98.0
+margin_bottom = 94.0
+rect_scale = Vector2( 3, 3 )
+text = "0"
+uppercase = true
+
 [connection signal="start_game" from="InitialMenu" to="." method="_on_InitialMenu_start_game"]
 [connection signal="block_died" from="Level" to="." method="_on_Level_block_died"]
 [connection signal="game_over" from="Level" to="." method="_on_Level_game_over"]
 [connection signal="game_started" from="Level" to="." method="_on_Level_game_started"]
+[connection signal="life_count_changed" from="Level" to="." method="_on_Level_life_count_changed"]

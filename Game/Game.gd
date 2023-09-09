@@ -3,7 +3,6 @@ extends Node2D
 var paused = false
 var score = 0
 
-
 func _on_Level_block_died(blocks_left):
 	score += 1
 	$Score.text = str(score)
@@ -34,9 +33,14 @@ func _on_Level_game_over():
 	score = 0
 	go_to_inital_menu()
 
+func _on_Level_life_count_changed(lives):
+	$Lives.text = str(lives)
+	$PressSpaceToStart.show()
+
 func go_to_inital_menu():
 	$InitialMenu.show()
 	$PressSpaceToStart.hide()
+	$Lives.hide()
 	$Level.hide()
 	$Pause.hide()
 	$Score.hide()
@@ -52,6 +56,8 @@ func start():
 	$Level.show()
 	$Level.start()
 	$Score.show()
+	$Lives.show()
+	$Lives.text = str($Level.lives)
 
 func unpause():
 	paused = false
