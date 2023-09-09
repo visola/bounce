@@ -14,6 +14,7 @@ var block_indestructable = load("res://Assets/block_indesctructable.png")
 
 var durability = 1
 var hits = 0
+var indestructible = false
 
 func _ready():
 	set_life(durability)
@@ -21,14 +22,22 @@ func _ready():
 
 func hit():
 	hits += 1
+	set_life(durability - hits)
+	
+	if indestructible:
+		return
+	
 	if hits >= durability:
 		emit_signal("died")
 		queue_free()
-	else:
-		set_life(durability - hits)
 
 func set_life(new_life):
 	$Durability.hide()
+	
+	if indestructible:
+		$Sprite.texture = block_indestructable
+		return
+	
 	var image_index = new_life - 1
 	if new_life > 5:
 		image_index = 4

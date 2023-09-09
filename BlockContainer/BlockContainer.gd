@@ -10,15 +10,19 @@ var desired_padding_x = 15
 var desired_padding_y = 15
 var max_blocks_y = 16
 
+var max_indestructible_blocks = 8
+
 var blocks = []
 var blocks_dead = 0
+var indestructible_blocks = 0
 
 func _on_Block_died():
 	blocks_dead += 1
-	emit_signal("block_died", blocks.size() - blocks_dead)
+	emit_signal("block_died", blocks.size() - blocks_dead - indestructible_blocks)
 
 func clear():
 	blocks_dead = 0
+	indestructible_blocks = 0
 	for block in blocks:
 		if is_instance_valid(block):
 			block.queue_free()
@@ -42,16 +46,29 @@ func generate_blocks(level):
 	var block_count_y = 2 + level
 	if block_count_y > max_blocks_y:
 		block_count_y = max_blocks_y
+		
+	var indestructible_count = level - 2
+	if indestructible_count < 0:
+		indestructible_count = 0
+	if indestructible_count > max_indestructible_blocks:
+		indestructible_count = max_indestructible_blocks
+		
+	var total_blocks = block_count_x * block_count_y
 
 	for i in block_count_x:
 		for j in block_count_y:
-
-			var extraDurability = j - level
+			var extraDurability = j - 1
 			if extraDurability < 0:
 				extraDurability = 0
 
 			var block_instance = Block.instance()
 			block_instance.durability = extraDurability + 1
+			
+			if indestructible_count > 0:
+				if randf() < 5 / total_blocks:
+					block_instance.indestructible = true
+					indestructible_count -= 1
+					indestructible_blocks += 1
 
 			blocks.push_back(block_instance)
 			$ReferenceRect.add_child(block_instance)
