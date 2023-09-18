@@ -1,13 +1,11 @@
 extends KinematicBody2D
 
-signal reached_bottom
-
 var HitSound = preload("res://Assets/hit.wav")
 var TemperatureGradient : GradientTexture = preload("res://Ball/temperature_gradient.tres")
 
-var random = RandomNumberGenerator.new()
-var speedi = 500
-var velocity = Vector2(0, -1 * speedi)
+var random:RandomNumberGenerator = RandomNumberGenerator.new()
+var speedi:int = 500
+var velocity:Vector2 = Vector2(0, -1 * speedi)
 
 var paused = false
 
@@ -64,7 +62,7 @@ func _physics_process(delta):
 	$Sprite.modulate = TemperatureGradient.gradient.interpolate(temperature)
 	
 	if position.y >= viewPortY:
-		emit_signal('reached_bottom')
+		Events.emit('reached_bottom')
 		
 func clean_streams():
 	for child in get_children():

@@ -2,8 +2,6 @@ extends Node2D
 
 var Block = preload('res://Block/Block.tscn')
 
-signal block_died
-
 var margin_x = 25
 var margin_y = 25
 var desired_padding_x = 15
@@ -16,9 +14,15 @@ var blocks = []
 var blocks_dead = 0
 var indestructible_blocks = 0
 
-func _on_Block_died():
+func _ready():
+	Events.listen("block_died", self, "_on_block_died")
+
+func _on_block_died():
 	blocks_dead += 1
-	emit_signal("block_died", blocks.size() - blocks_dead - indestructible_blocks)
+	var blocks_left = blocks.size() - blocks_dead - indestructible_blocks
+	Events.emit("blocks_changed", [blocks_left])
+	if blocks_left == 0:
+		Events.emit("blocks_finished")
 
 func clear():
 	blocks_dead = 0
@@ -72,7 +76,6 @@ func generate_blocks(level):
 
 			blocks.push_back(block_instance)
 			$ReferenceRect.add_child(block_instance)
-			block_instance.connect("died", self, "_on_Block_died")
 
 			block_instance.position.x = margin_x + i * (block_size.x + this_padding_x)
 			block_instance.position.y = j * (block_size.y + desired_padding_y) + desired_padding_y

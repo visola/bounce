@@ -1,10 +1,5 @@
 extends Node2D
 
-signal block_died
-signal game_over
-signal game_started
-signal life_count_changed
-
 var Ball = preload('res://Ball/Ball.tscn')
 
 var ball_instance
@@ -17,11 +12,11 @@ var running = false
 
 var level = initial_level
 var lives = 0
+	
+func _on_blocks_finished():
+	next_level()
 
-func _on_BlockContainer_block_died(blocks_left):
-	emit_signal("block_died", blocks_left)
-
-func _on_Ball_reached_bottom():
+func _on_ball_reached_bottom():
 	level = initial_level
 	lives -= 1
 
@@ -31,7 +26,11 @@ func _on_Ball_reached_bottom():
 		
 	clear()
 	running = false
-	emit_signal("life_count_changed", lives)
+	Events.emit("life_count_changed", [lives])
+
+func _ready():
+	Events.listen("blocks_finished", self, "_on_blocks_finished")
+	Events.listen("reached_bottom", self, "_on_ball_reached_bottom")
 
 func _process(delta):
 	if !ready_to_start:
@@ -44,8 +43,7 @@ func _process(delta):
 			ball_instance.position = $Player.position
 			ball_instance.position.y -= 50
 			ball_instance.reset_speed()
-			ball_instance.connect("reached_bottom", self, "_on_Ball_reached_bottom")
-			emit_signal("game_started")
+			Events.emit("game_started")
 			running = true
 
 func clear():
@@ -56,7 +54,7 @@ func game_over():
 	ready_to_start = false
 	clear()
 	running = false
-	emit_signal("game_over")
+	Events.emit("game_over")
 
 func is_running():
 	return running
@@ -74,6 +72,7 @@ func pause():
 	
 func start():
 	lives = initial_lives
+	Events.emit("life_count_changed", [lives])
 
 	$Player.visible = true
 	$Player.start()

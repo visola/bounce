@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://InitialMenu/InitialMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Level/Level.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Game/Game.gd" type="Script" id=3]
 [ext_resource path="res://Assets/win.wav" type="AudioStream" id=4]
+[ext_resource path="res://ui/ui.tscn" type="PackedScene" id=5]
 
 [node name="Game" type="Node2D" groups=["blocks"]]
 script = ExtResource( 3 )
@@ -37,30 +38,9 @@ rect_scale = Vector2( 2, 2 )
 text = "Press \"Space\" to start"
 align = 1
 
-[node name="Score" type="Label" parent="."]
-margin_left = 602.0
-margin_top = 90.0
-margin_right = 638.0
-margin_bottom = 104.0
-rect_scale = Vector2( 3, 3 )
-text = "0"
-align = 2
-uppercase = true
-
 [node name="Win" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
 
-[node name="Lives" type="Label" parent="."]
-margin_left = 79.0
-margin_top = 80.0
-margin_right = 98.0
-margin_bottom = 94.0
-rect_scale = Vector2( 3, 3 )
-text = "0"
-uppercase = true
+[node name="UserInterface" parent="." instance=ExtResource( 5 )]
 
 [connection signal="start_game" from="InitialMenu" to="." method="_on_InitialMenu_start_game"]
-[connection signal="block_died" from="Level" to="." method="_on_Level_block_died"]
-[connection signal="game_over" from="Level" to="." method="_on_Level_game_over"]
-[connection signal="game_started" from="Level" to="." method="_on_Level_game_started"]
-[connection signal="life_count_changed" from="Level" to="." method="_on_Level_life_count_changed"]

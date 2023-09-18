@@ -3,15 +3,14 @@ extends Node2D
 var paused = false
 var score = 0
 
-func _on_Level_block_died(blocks_left):
-	score += 1
-	$Score.text = str(score)
-	if blocks_left == 0:
-		$Win.play()
-		$Level.next_level()
+func _on_blocks_finished():
+	$Win.play()
 
 func _ready():
 	go_to_inital_menu()
+	Events.listen("blocks_finished", self, "_on_blocks_finished")
+	Events.listen("game_started", self, "_on_game_started")
+	Events.listen("game_over", self, "_on_game_over")
 	
 func _process(delta):
 	if Input.is_action_just_released("ui_select"):
@@ -23,27 +22,25 @@ func _process(delta):
 		else:
 			pause()
 
-func _on_Level_game_started():
+func _on_game_started():
 	$PressSpaceToStart.hide()
 
 func _on_InitialMenu_start_game():
 	start()
 
-func _on_Level_game_over():
+func _on_game_over():
 	score = 0
 	go_to_inital_menu()
 
 func _on_Level_life_count_changed(lives):
-	$Lives.text = str(lives)
 	$PressSpaceToStart.show()
 
 func go_to_inital_menu():
 	$InitialMenu.show()
 	$PressSpaceToStart.hide()
-	$Lives.hide()
 	$Level.hide()
+	$UserInterface.hide()
 	$Pause.hide()
-	$Score.hide()
 
 func pause():
 	paused = true
@@ -54,10 +51,8 @@ func start():
 	$InitialMenu.hide()
 	$PressSpaceToStart.show()
 	$Level.show()
+	$UserInterface.show()
 	$Level.start()
-	$Score.show()
-	$Lives.show()
-	$Lives.text = str($Level.lives)
 
 func unpause():
 	paused = false
