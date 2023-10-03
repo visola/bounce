@@ -7,7 +7,7 @@ var random:RandomNumberGenerator = RandomNumberGenerator.new()
 var speedi:int = 500
 var velocity:Vector2 = Vector2(0, -1 * speedi)
 
-var paused = false
+var paused = true
 
 var max_hit_temperature = 100.0
 var temperature_decrease_seconds = 0.4
@@ -16,6 +16,7 @@ var hit_count = 0
 var time_last_subtract = 0
 
 func _ready():
+	render_temperature()
 	random.randomize()
 	velocity.x = random.randi_range(10, speedi)
 
@@ -52,14 +53,7 @@ func _physics_process(delta):
 	if hit_count > max_hit_temperature:
 		hit_count = max_hit_temperature
 
-	var temperature = float(hit_count) / max_hit_temperature
-	if temperature > 0.4:
-		$Smoke.emitting = true
-	else:
-		$Smoke.emitting = false
-
-	$Light2D.energy = temperature / 2
-	$Sprite.modulate = TemperatureGradient.gradient.interpolate(temperature)
+	render_temperature()
 	
 	if position.y >= viewPortY:
 		Events.emit('reached_bottom')
@@ -78,6 +72,16 @@ func play_hit_sound():
 
 	stream.stream = HitSound
 	stream.play()
+	
+func render_temperature():
+	var temperature = float(hit_count) / max_hit_temperature
+	if temperature > 0.4:
+		$Smoke.emitting = true
+	else:
+		$Smoke.emitting = false
+
+	$Light2D.energy = temperature / 2
+	$Sprite.modulate = TemperatureGradient.gradient.interpolate(temperature)
 
 func reset_speed():
 	velocity = Vector2(
