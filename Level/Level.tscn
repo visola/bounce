@@ -1,11 +1,24 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Level/Level.gd" type="Script" id=2]
+[ext_resource path="res://Level/LevelManager.gd" type="Script" id=2]
 [ext_resource path="res://BlockContainer/BlockContainer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/left_wall.png" type="Texture" id=4]
 [ext_resource path="res://Assets/top_wall.png" type="Texture" id=5]
 [ext_resource path="res://Assets/right_wall.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Ball.png" type="Texture" id=7]
+[ext_resource path="res://Assets/win.wav" type="AudioStream" id=8]
+[ext_resource path="res://Level/LifeManager.gd" type="Script" id=9]
+[ext_resource path="res://Level/Paused.gd" type="Script" id=10]
+[ext_resource path="res://Level/Playing.gd" type="Script" id=11]
+[ext_resource path="res://Level/WaitingToStart.gd" type="Script" id=12]
+[ext_resource path="res://Level/LevelStateMachine.gd" type="Script" id=13]
+[ext_resource path="res://Ball/Ball.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Level/ResetState.gd" type="Script" id=15]
+[ext_resource path="res://Level/ScoreManager.gd" type="Script" id=16]
+[ext_resource path="res://Level/Score.gd" type="Script" id=17]
+[ext_resource path="res://Level/LivesContainer.gd" type="Script" id=18]
+[ext_resource path="res://Level/Win.gd" type="Script" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 400.375, 36.5 )
@@ -14,9 +27,13 @@ extents = Vector2( 400.375, 36.5 )
 extents = Vector2( 35.75, 426.125 )
 
 [node name="Level" type="Node2D"]
-script = ExtResource( 2 )
 
-[node name="Walls" type="Node" parent="."]
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 800.0
+margin_bottom = 800.0
+color = Color( 0.654902, 0.72549, 0.854902, 1 )
+
+[node name="Walls" type="Node2D" parent="."]
 
 [node name="Top Wall" type="StaticBody2D" parent="Walls"]
 
@@ -52,6 +69,107 @@ visible = false
 position = Vector2( -37, 426 )
 shape = SubResource( 2 )
 
+[node name="UserInterface" type="Control" parent="."]
+margin_right = 800.0
+margin_bottom = 800.0
+
+[node name="LivesContainer" type="HBoxContainer" parent="UserInterface"]
+margin_left = 60.0
+margin_top = 15.0
+margin_right = 98.0
+margin_bottom = 30.0
+script = ExtResource( 18 )
+
+[node name="Life 1" type="TextureRect" parent="UserInterface/LivesContainer"]
+margin_right = 30.0
+margin_bottom = 30.0
+texture = ExtResource( 7 )
+
+[node name="Life 2" type="TextureRect" parent="UserInterface/LivesContainer"]
+margin_left = 34.0
+margin_right = 64.0
+margin_bottom = 30.0
+texture = ExtResource( 7 )
+
+[node name="Life 3" type="TextureRect" parent="UserInterface/LivesContainer"]
+margin_left = 68.0
+margin_right = 98.0
+margin_bottom = 30.0
+texture = ExtResource( 7 )
+
+[node name="ScoreContainer" type="HBoxContainer" parent="UserInterface"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -100.0
+margin_top = 15.0
+margin_right = -50.0
+margin_bottom = 14.0
+rect_scale = Vector2( 2, 2 )
+
+[node name="Score" type="Label" parent="UserInterface/ScoreContainer"]
+margin_right = 8.0
+margin_bottom = 14.0
+text = "0"
+script = ExtResource( 17 )
+
+[node name="LevelManager" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="LifeManager" type="Node" parent="."]
+script = ExtResource( 9 )
+
+[node name="ScoreManager" type="Node" parent="."]
+script = ExtResource( 16 )
+
+[node name="LevelStateMachine" type="Node" parent="."]
+script = ExtResource( 13 )
+
+[node name="ResetState" type="Node" parent="LevelStateMachine"]
+script = ExtResource( 15 )
+
+[node name="WaitingToStart" type="Node" parent="LevelStateMachine"]
+script = ExtResource( 12 )
+
+[node name="Control" type="Control" parent="LevelStateMachine/WaitingToStart"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PressSpace" type="Label" parent="LevelStateMachine/WaitingToStart/Control"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_right = -400.0
+margin_bottom = 14.0
+rect_scale = Vector2( 2, 2 )
+text = "Press \"Space\" to start"
+align = 1
+valign = 1
+
+[node name="Playing" type="Node" parent="LevelStateMachine"]
+script = ExtResource( 11 )
+
+[node name="Paused" type="Node" parent="LevelStateMachine"]
+script = ExtResource( 10 )
+
+[node name="Control" type="Control" parent="LevelStateMachine/Paused"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Pause" type="Label" parent="LevelStateMachine/Paused/Control"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_right = -400.0
+margin_bottom = 14.0
+rect_scale = Vector2( 2, 2 )
+text = "Paused, press \"Space\" to continue"
+align = 1
+valign = 1
+
+[node name="Win" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
+script = ExtResource( 19 )
+
 [node name="BlockContainer" parent="." instance=ExtResource( 3 )]
 position = Vector2( -1, 0 )
 
@@ -59,4 +177,4 @@ position = Vector2( -1, 0 )
 position = Vector2( 403, 767 )
 collision_mask = 1
 
-[connection signal="block_died" from="BlockContainer" to="." method="_on_BlockContainer_block_died"]
+[node name="Ball" parent="." instance=ExtResource( 14 )]

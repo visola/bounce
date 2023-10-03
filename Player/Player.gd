@@ -8,7 +8,7 @@ var initial_y
 func _ready():
 	initial_y = position.y
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if stopped:
 		return
 
